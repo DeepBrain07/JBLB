@@ -45,13 +45,16 @@ const Header = () => {
       </div>
 
       {/* MOBILE MENU */}
+      <div className="flex justify-center items-center">
+
+      
       <div
         className={`
-          lg:hidden bg-black border-t border-primary/10 overflow-hidden transition-all duration-300
+          lg:hidden bg-black border-t border-primary/10 overflow-hidden w-[90%] border-2 flex justify-center items-center transition-all duration-300
           ${isOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"}
         `}
       >
-        <div className="flex flex-col px-6 py-4 space-y-4 text-white">
+        <div className="flex flex-col px-6 py-4 space-y-4 text-white w-full items-center">
 
           <button className="text-left">HOME</button>
           <button className="text-left">MARKETPLACE</button>
@@ -63,6 +66,7 @@ const Header = () => {
 
           <Button title="LAUNCHPAD" className="bg-primary/10 text-white w-full" />
         </div>
+      </div>
       </div>
     </div>
   );
