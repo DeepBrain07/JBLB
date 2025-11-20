@@ -1,6 +1,6 @@
 export const WaitlistForm = () => {
   return (
-    <div className="neon-box bg-black p-6 w-[80vw] sm:w-[60vw] mx-auto">
+    <div className="neon-box bg-black p-6 w-[80vw] md:w-[70vw] mx-auto">
       <form className="flex flex-col gap-4">
 
         {/* Username */}

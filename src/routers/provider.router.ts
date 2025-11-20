@@ -1,5 +1,5 @@
 import { createBrowserRouter, } from "react-router-dom";
-import Landing from "../layouts/Landing/LandingAlt";
+// import Landing from "../layouts/Landing/LandingAlt";
 import Prelaunch from "../layouts/Prelaunch/Pralaunch";
 
 export const ProviderRoutePaths = {

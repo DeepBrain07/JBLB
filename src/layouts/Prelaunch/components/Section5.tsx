@@ -60,7 +60,7 @@ const Card = ({ question, answer }: CardProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="w-[80vw] lg:w-[50vw] bg-bgColor border-2 border-white/20 p-4 flex flex-col gap-4">
+    <div className="w-[80vw] lg:w-[50vw] bg-bgColor border-2 border-white/20 p-4 flex flex-col gap-4 transition-all duration-300">
       <div className="flex gap-4 justify-between items-center">
         <p className="font-bold">{question}</p>
         <Icon
@@ -71,7 +71,14 @@ const Card = ({ question, answer }: CardProps) => {
         />
       </div>
 
-      {isOpen && <p>{answer}</p>}
+      {/* Animated answer */}
+      <div
+        className={`overflow-hidden transition-all duration-300 ${
+          isOpen ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"
+        }`}
+      >
+        <p>{answer}</p>
+      </div>
     </div>
   );
 };

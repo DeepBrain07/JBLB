@@ -15,3 +15,4 @@ export { default as partner4 } from "./partner4.svg";
 export { default as footerBg } from "./footerBg.png";
 export { default as playNow } from "./playNow.svg";
 export { default as waitlistImageSet } from "./waitlistImageSet.svg";
+export { default as borderImage } from "./borderImage.png";
