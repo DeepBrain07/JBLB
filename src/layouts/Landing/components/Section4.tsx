@@ -24,7 +24,7 @@ const Section4 = () => {
           <div className="w-fit p-2 px-4 bg-bgColor text-white mb-4"><p>PARTNERS</p></div>
           <h2 className="">Built on the Best of Web3</h2>
         </div>
-        <div className="w-full sm:w-[59%] flex justify-start sm:justify-end gap-4 sm:gap-[4%] flex-wrap">
+        <div className="w-full sm:w-[59%] flex justify-start sm:justify-end gap-4 sm:gap-[4%] overflow-x-scroll px-2">
           <img src={partner1} alt="partner1" className="h-12 object-contain"/>
           <img src={partner2} alt="partner2" className="h-12 object-contain"/>
           <img src={partner3} alt="partner3" className="h-12 object-contain"/>

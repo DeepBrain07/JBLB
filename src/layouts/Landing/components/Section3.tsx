@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
+// import { Icon } from "@iconify/react/dist/iconify.js";
 import { Button } from "../../../components/ButtonAlt";
 import { icon1, icon2, icon3 } from "../../../assets/images";
 
@@ -75,8 +75,8 @@ interface CardProps {
 
 const Card = ({ title, content, img, buttonName, buttonClassName, firstCard }: CardProps) => {
   return (
-    <div className="border-t-2  max-w-[300px] h-[380px] border-1 border-bgColor ">
-      {firstCard && <div className="relative w-[50%] top-0 border-2 border-primary"></div>}
+    <div className="border-t-2 w-[70vw] max-w-[300px] h-[380px] border-1 border-bgColor ">
+      {/* {firstCard && <div className="relative w-[50%] top-0 border-2 border-primary"></div>} */}
       <div className="p-4 py-6 flex flex-col items-start justify-between h-full ">
         <img src={img} alt={img} className="size-12 mb-4" />
         <p className="!font-bold !text-xl">{title}</p>

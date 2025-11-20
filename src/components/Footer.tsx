@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { footerBg } from "../assets/images";
+import { logo, footerBg } from "../assets/images";
 
 export const Footer = () => {
   const links = {
@@ -30,7 +30,7 @@ export const Footer = () => {
     }}
     >
       <div className="flex justify-between items-start mx-[7vw]">
-        
+        <img src={logo} alt="logo"/>
         <div className="flex gap-8 ml-auto">
           {/* links */}
           <div className="flex flex-col items-end gap-2">
@@ -63,7 +63,7 @@ export const Footer = () => {
       </div>
 
       {/* second row */}
-      <div className="mt-10 text-bodyText/50 flex justify-between items-baseline flex-wrap gap-4 mx-[7vw] pb-2">
+      <div className="mt-10 text-bodyText/50 flex flex-col sm:flex-row justify-center sm:justify-between items-center flex-wrap gap-4 mx-[7vw] pb-2">
         <p className="whitespace-nowrap">© 2025 JBLB • All rights reserved.</p>
 
         <div className="flex gap-2">

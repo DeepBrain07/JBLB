@@ -60,7 +60,7 @@ interface CardProps {
 
 const Card = ({ title, value, increase, decrease }: CardProps) => {
   return (
-    <div className="w-[230px] h-[120px] p-4 py-6 flex flex-col justify-between items-start gap-2 bg-bgColor ">
+    <div className="w-[70vw] sm:w-[230px] h-[120px] p-4 py-6 flex flex-col justify-between items-start gap-2 bg-bgColor ">
       {/* Left Section */}
       <div className="flex justify-start items-center gap-2">
         <p className="text-white/50 !font-extralight">{title}</p>

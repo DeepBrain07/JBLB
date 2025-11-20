@@ -30,7 +30,7 @@ const Section5 = () => {
           <Button title="PHASE 3" className="py-2  px-1 sm:px-2 text-bodyTextDim"/>
         </div>
 
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap justify-center">
           <Card 
             title="Phase 1: MVP"
             content={[

@@ -12,33 +12,36 @@ const Header = () => {
         
         {/* Left Section */}
         <div className="flex items-center">
-          <div className="flex items-center px-6 cursor-pointer">
-            <img src={logo} alt="Logo" className="h-16 w-16 shrink-0" />
+          <div className="flex items-center md:px-6 cursor-pointer">
+            <img src={logo} alt="Logo" className=" size-[10vw] md:size-16 shrink-0" />
           </div>
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex">
-            <Button title="HOME" className="border-y-0 text-white" />
+            <Button title="HOME" className="border-y-0 text-white md:!px-2 lg-!px-6" />
             <Button title="MARKETPLACE" className="border-y-0 border-l-0 text-white" />
             <Button title="LEADERBOARD" className="border-y-0 border-l-0 text-white" />
             <Button title="BLOG" className="border-y-0 border-l-0 text-white" />
-            <Button title="DOC" className="border-y-0 border-l-0 text-white" />
+            <Button title="DOC" className="border-y-0 border-l-0 text-white " />
           </div>
         </div>
 
         {/* Right Section */}
-        <div className="hidden lg:flex">
-          <Button title="LAUNCHPAD" className="border-y-0 bg-primary/10 text-white" />
-          <Button title="CONNECT WALLET" className="border-y-0 border-l-0 bg-primary text-black" />
+        <div className="hidden lg:flex w-fit">
+          <Button title="LAUNCHPAD" className="border-y-0 bg-primary/10 text-white " />
+          <Button title="CONNECT WALLET" className="border-y-0 border-l-0 bg-primary text-black " />
         </div>
 
+        {/* Mobile Connect wallet */}
+          <Button title="CONNECT WALLET" className="lg:hidden bg-primary text-black w-[60%]" />
+
         {/* Mobile Toggle */}
-        <Icon
-          icon={isOpen ? "mdi:close" : "mdi:menu"}
-          width={30}
-          className="lg:hidden text-white cursor-pointer"
-          onClick={() => setIsOpen(!isOpen)}
-        />
+          <Icon
+            icon={isOpen ? "material-symbols:close" : "mdi:menu"}
+            width={30}
+            className="lg:hidden text-white cursor-pointer"
+            onClick={() => setIsOpen(!isOpen)}
+          />
       </div>
 
       {/* MOBILE MENU */}
@@ -59,7 +62,6 @@ const Header = () => {
           <div className="h-[1px] bg-primary/20 my-2"></div>
 
           <Button title="LAUNCHPAD" className="bg-primary/10 text-white w-full" />
-          <Button title="CONNECT WALLET" className="bg-primary text-black w-full" />
         </div>
       </div>
     </div>

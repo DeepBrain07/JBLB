@@ -2,6 +2,7 @@ import { logos} from "../../../assets/images";
 import { Button } from "../../../components/ButtonAlt";
 import GridBackground from "./GridBackground";
 import Header from "./Header";
+import { logo } from "../../../assets/images";
 
 const HeroSection = () => {
   return (
@@ -66,6 +67,7 @@ const HeroSection = () => {
       <div className="relative z-10 flex flex-col items-center pt-16">
         <Header/>
         <div className="md:w-[70%] text-center mt-30 flex flex-col justify-center items-center">
+          <img src={logo} alt="logo" className="relative left-[20vw]"/>
           <h1 className="font-panchang text-white ">
             The World First <br/> 
           </h1>
@@ -78,7 +80,9 @@ const HeroSection = () => {
               <Button title="LAUCH YOUR CLUB" className="bg-black/80"/>
               <Button title="PLAY NOW ON DAPP" className="bg-primary text-black "/>
             </div>
-            <img src={logos} alt="Logos" className=" w-auto size-[150px]"/>
+            <div className="flex justify-center">
+              <img src={logos} alt="Logos" className="  w-[80vw] max-w-[500px] contain"/>
+            </div>
           </div>
           
         </div> 
