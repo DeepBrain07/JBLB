@@ -64,7 +64,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 opacity-70">
         <GridBackground />
       </div>
-      <div className="relative z-10 flex flex-col items-center pt-16">
+      <div className="relative z-10 flex flex-col items-center pt-8">
         <Header/>
         <div className="md:w-[70%] text-center mt-30 flex flex-col justify-center items-center">
           <img src={logo} alt="logo" className="relative left-[20vw]"/>

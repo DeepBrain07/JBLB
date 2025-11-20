@@ -22,7 +22,7 @@ const Section5 = () => {
       <div className="w-full relative flex flex-col gap-8 items-center h-fit">
         <div className="w-full flex flex-col items-center gap-4">
           <div className="w-fit p-2 px-4 bg-bgColor text-white "><p>ROADMAP</p></div>
-          <h2 className="">The Future of YieldSport™</h2>
+          <h2 className="text-center">The Future of YieldSport™</h2>
         </div>
         <div className="flex">
           <Button title="PHASE 1" className="py-2 px-1 sm:px-2 text-black bg-primary"/>
@@ -80,7 +80,7 @@ interface CardProps {
 const Card = ({ title, content,  firstCard }: CardProps) => {
   return (
     <div
-      className={`min-w-[350px] z-50 p-4 py-6 flex flex-col items-start justify-between h-full ${
+      className={`w-[70vw] sm:min-w-[350px]  p-4 py-6 flex flex-col items-start justify-between h-full ${
         firstCard ? 'text-white' : 'text-bodyTextDim/50'
       }`}
     >
@@ -93,7 +93,7 @@ const Card = ({ title, content,  firstCard }: CardProps) => {
             </div>}
         </div>
         {content.map((text, index) => (
-          <div className="flex mb-2 gap-2 justify-center items-center">
+          <div key={index}  className="flex mb-2 gap-2 justify-center items-center">
             <Icon icon="material-symbols-light:square" className={`size-6 ${firstCard ? 'text-primary' : 'text-primary/50' }`}/>
             <p key={index}>{text}</p>
           </div>
