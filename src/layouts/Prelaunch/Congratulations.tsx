@@ -12,7 +12,7 @@ const Congratulations = () => {
       <div className="  inset-0 pointer-events-none">
       {/* Star 1 */}
       <div
-        className="absolute top-[15%] left-[50vw] animate-pulse-stars"
+        className="absolute top-[10%] left-[60vw] animate-pulse-stars"
         style={{ animationDelay: "0.8s" }}
       >
         <div className="relative w-2 h-2">
@@ -74,7 +74,7 @@ const Congratulations = () => {
           {/* content */}
           <div className="w-full ">
             <div
-              className="bg-bgColor border-2 border-b border-dotted border-primary w-full p-[20px] flex flex-col py-20  gap-8 justify-center items-center"
+              className="bg-bgColor border-2 border-b border-dotted border-primary w-full p-[20px] -mt-8 flex flex-col py-20  gap-8 justify-center items-center"
               style={{
                 clipPath: `polygon(
                   0% 0%,                           /* Top Left */
@@ -132,17 +132,11 @@ const Congratulations = () => {
           <div className="flex flex-col gap-4">
             <h2 className="text-2xl font-bold">Congratulations You're now <span className="text-primary">on the List!</span></h2>
             <p className="text-bodyTextDim"> <span className="text-white">Your spot is reserved.</span> You're now part of the <span className="text-white">inner circle</span> getting first access to the world's first YieldSport™.</p>
-            <div className="flex justify-center gap-2">
-              <Button title="SHARE ON X" icon="prime:twitter" className="bg-primary text-black px-4 py-2"/>
+            <div className="flex justify-center gap-2 flex-wrap items-center ">
+              <Button title="SHARE ON X" icon="prime:twitter" className="bg-primary text-black px-4 py-2 whitespace-nowrap"/>
               <Button title="DOWNLOAD" icon="material-symbols:download" className=" bg-bgColor text-white px-4 py-2"/>
             </div>
           </div>
-          {/* <button
-            className="mt-4 px-4 py-2 bg-red-500 text-white rounded"
-            onClick={() => setIsOpen(false)}
-          >
-            Close
-          </button> */}
         </div>
         {/* Animations */}
         <style>{`
