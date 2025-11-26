@@ -78,9 +78,9 @@ const HeroSection = () => {
             <div className="flex flex-wrap w-full justify-center">
               <WaitlistForm />
             </div>
-            <div className="flex justify-center items-center gap-2">
+            <div className="flex justify-center flex-wrap items-center gap-2">
               <img src={waitlistImageSet} alt="waitlist" className="min-w-[70px] w-[15vw] max-w-[80px]  contain"/>
-              <p className="font-extralight text-left">Join 200+ Web3 Guru on the waitlist</p>
+              <p className="font-extralight text-center">Join 200+ Web3 Guru on the waitlist</p>
             </div>
           </div>
           

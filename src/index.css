@@ -16,7 +16,8 @@
 /* === Theme Colors === */
 @theme {
   --color-primary: #A9EF2E;
-  --color-bgColor: #1F1F1F;
+  --color-bgColor: #0F0F0F;
+  --color-borderColor: #1F1F1F;
   --color-bodyText: #FFFFFF;
   --color-bodyTextDim: rgba(255, 255, 255, 0.8);
   --font-panchang: 'Panchang', sans-serif;

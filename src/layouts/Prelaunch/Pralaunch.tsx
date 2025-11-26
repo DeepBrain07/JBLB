@@ -1,7 +1,9 @@
 import { bgMain } from "../../assets/images";
 import { Footer } from "./components/Footer";
 import HeroSection from "./components/HeroSectionAlt";
-import Section5 from "./components/Section5";
+import Faq from "./components/Faq.tsx";
+import Solution from "./components/solution.tsx";
+import Video from "./components/Video.tsx";
 
 const Prelaunch = () => {
   return (
@@ -20,7 +22,9 @@ const Prelaunch = () => {
         <Footer />
         <div className="mx-[7vw] relative mb-[40vh]">
           <HeroSection />
-          <Section5/>
+          <Video />
+          <Solution />
+          <Faq/>
         </div>
               
       </div>

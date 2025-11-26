@@ -1,8 +1,6 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { FAQ_LIST } from "./faq";
-import { useState } from "react";
+import { solutionImg1, solutionImg2, solutionImg3 } from "../../../assets/images";
 
-const Section5 = () => {
+const Solution = () => {
   return (
     <div className="border-t-1 border-white/10 py-20 relative flex justify-center w-full overflow-hidden">
       
@@ -23,18 +21,32 @@ const Section5 = () => {
 
       {/* Content */}
       <div className="w-full relative flex flex-col gap-8 items-center h-fit">
-        <div className="w-full flex flex-col items-center gap-4">
+        <div className="w-full sm:w-[60%] text-center max-w-[800px] flex flex-col items-center gap-4">
           <div className="w-fit p-2 px-4 bg-bgColor text-white">
-            <p>FAQ</p>
+            <p>SOLUTION</p>
           </div>
-          <h2 className="text-center">The Future of YieldSport™</h2>
+          <h2 className="text-center">Your Legacy in the Yield League Starts Now.</h2>
+          <p className="text-bodyTextDim">Forge your club, accumulate your CValue, and write your name into the annals of the first YieldSport™. Will you be a player, a founder, or a legend?</p>
         </div>
 
-        <div className="flex flex-col gap-4 justify-center">
-          {FAQ_LIST.map((faq, i) => (
-            <Card key={i} question={faq.question} answer={faq.answer} />
-          ))}
+        <div className="flex flex-wrap items-center justify-center mt-4">
+          <img
+            src={solutionImg1}
+            alt="Solution Image 1"
+            className="w-[40vw] sm:w-[300px] h-auto -mx-2"
+          />
+          <img
+            src={solutionImg2}
+            alt="Solution Image 2"
+            className="w-[40vw] sm:w-[300px] h-auto -mx-2"
+          />
+          <img
+            src={solutionImg3}
+            alt="Solution Image 3"
+            className="w-[40vw] sm:w-[300px] h-auto -mx-2"
+          />
         </div>
+
       </div>
 
       {/* Animation CSS */}
@@ -51,36 +63,5 @@ const Section5 = () => {
   );
 };
 
-interface CardProps {
-  question: string;
-  answer: string;
-}
 
-const Card = ({ question, answer }: CardProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div className="w-[80vw] lg:w-[50vw] bg-bgColor border-2 border-white/20 p-4 flex flex-col gap-4 transition-all duration-300">
-      <div className="flex gap-4 justify-between items-center">
-        <p className="font-bold">{question}</p>
-        <Icon
-          icon={isOpen ? "ph:minus-fill" : "material-symbols-light:add-box"}
-          width={30}
-          className="text-white cursor-pointer size-10"
-          onClick={() => setIsOpen(!isOpen)}
-        />
-      </div>
-
-      {/* Animated answer */}
-      <div
-        className={`overflow-hidden transition-all duration-300 ${
-          isOpen ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"
-        }`}
-      >
-        <p>{answer}</p>
-      </div>
-    </div>
-  );
-};
-
-export default Section5;
+export default Solution;
