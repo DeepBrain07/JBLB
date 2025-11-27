@@ -1,13 +1,17 @@
-import { waitlistFormBg  } from "../../../assets/images";
+import { waitlistFormBgAlt } from "../../../assets/images";
 import { useNavigate } from "react-router-dom";
 
 export const WaitlistForm = () => {
   const navigate = useNavigate();
   return (
     <div
-      className="w-[80vw] max-w-[600px] mx-auto bg-no-repeat bg-center bg-cover relative"
+      className=" w-[80vw] bg-bgColor max-w-[600px] mx-auto bg-no-repeat bg-center bg-cover relative"
       style={{
-        backgroundImage: `url(${waitlistFormBg})`,
+        // backgroundImage: `url(${waitlistFormBgAlt})`,
+        borderImage: `url(${waitlistFormBgAlt})`,
+        borderImageWidth: "20px",
+        borderImageSlice: 20,
+        borderImageRepeat: "repeat",
       }}
     >
       <div className="p-6 flex flex-col gap-4">
@@ -17,13 +21,13 @@ export const WaitlistForm = () => {
           <input
             type="text"
             placeholder="ENTER X USERNAME"
-            className="w-full bg-[#111] border border-white/10 text-white px-4 py-4 placeholder-white/40 focus:outline-none"
+            className="w-full bg-[#111] border border-borderColor text-white px-4 py-4 placeholder-bodyTextDim focus:outline-none"
           />
 
           <input
             type="email"
             placeholder="ENTER YOUR EMAIL"
-            className="w-full bg-[#111] border border-white/10 text-white px-4 py-4 placeholder-white/40 focus:outline-none"
+            className="w-full bg-[#111] border border-borderColor text-white px-4 py-4 placeholder-bodyTextDim focus:outline-none"
           />
 
           <div

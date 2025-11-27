@@ -5,7 +5,7 @@ import { useState } from "react";
 const Video = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   return (
-    <div className=" border-white/10 py-20  relative flex justify-center w-full overflow-hidden">
+    <div className=" border-t-2 border-borderColor py-20  relative flex justify-center w-full overflow-hidden">
       
       {/* Stars animation */}
       <div className="absolute inset-0 pointer-events-none">
@@ -31,13 +31,13 @@ const Video = () => {
             <Icon icon="material-symbols:square" className="size-3 text-primary" />
           </div>
           {/* Video */}
-          <div className="relative  h-[250px] bg-bgColor ">
+          <div className="relative  h-[280px] bg-bgColor ">
       
             {/* Placeholder Icon */}
             {!isLoaded && (
-              <div className="relative h-full w-full bg-borderColor/30 flex flex-col items-center justify-center">
+              <div className="relative h-full w-full bg-borderColor flex flex-col items-center justify-center">
                 <img src={playNowAlt} alt="play now" className="h-4 mx-4 relative left-14 bottom-2 "/>
-                <div className=" top-[50px] inset-0 w-fit h-fit p-2 bg-borderColor text-white">
+                <div className=" top-[50px] inset-0 w-fit h-fit p-2 bg-bgColor opacity-60 text-white">
                   <Icon icon="ph:play-fill" width={30} className="" />
                 </div>
               </div>

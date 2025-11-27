@@ -17,7 +17,7 @@ const Faq = () => {
             <div className="absolute inset-0 bg-[#A9EF2E] blur-[0.5px] opacity-70"></div>
             <div className="absolute top-1/2 left-1/2 w-3 h-[1px] bg-[#A9EF2E] -translate-x-1/2 -translate-y-1/2 rotate-45 blur-[0.5px] opacity-60"></div>
             <div className="absolute top-1/2 left-1/2 w-3 h-[1px] bg-[#A9EF2E] -translate-x-1/2 -translate-y-1/2 -rotate-45 blur-[0.5px] opacity-60"></div>
-            <div className="absolute top-1/2 left-1/2 w-5 h-5 bg-[#A9EF2E]/20 rounded-full -translate-x-1/2 -translate-y-1/2 blur-md"></div>
+            <div className="absolute top-1/2 left-1/2 w-5 h-5 rgba(169, 239, 46, 0.2) rounded-full -translate-x-1/2 -translate-y-1/2 blur-md"></div>
           </div>
         </div>
       </div>
@@ -25,7 +25,7 @@ const Faq = () => {
       {/* Content */}
       <div className="w-full relative flex flex-col gap-8 items-center h-fit">
         <div className="w-full flex flex-col items-center gap-4">
-          <div className="w-fit p-2 px-4 bg-bgColor text-white">
+          <div className="w-fit p-2 px-4 bg-bgColor border-1 border-borderColor text-white">
             <p>FAQ</p>
           </div>
           <h2 className="text-center">The Future of YieldSport™</h2>

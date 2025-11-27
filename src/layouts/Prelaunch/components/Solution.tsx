@@ -22,7 +22,7 @@ const Solution = () => {
       {/* Content */}
       <div className="w-full relative flex flex-col gap-8 items-center h-fit">
         <div className="w-full sm:w-[60%] text-center max-w-[800px] flex flex-col items-center gap-4">
-          <div className="w-fit p-2 px-4 bg-bgColor text-white">
+          <div className="w-fit p-2 px-4 bg-bgColor border-1 border-borderColor text-white">
             <p>SOLUTION</p>
           </div>
           <h2 className="text-center">Your Legacy in the Yield League Starts Now.</h2>

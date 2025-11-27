@@ -17,6 +17,7 @@ export { default as playNow } from "./playNow.svg";
 export { default as playNowAlt } from "./playNowAlt.svg";
 export { default as waitlistImageSet } from "./waitlistImageSet.svg";
 export { default as waitlistFormBg } from "./waitlistFormBg.svg";
+export { default as waitlistFormBgAlt } from "./waitlistFormBg.png";
 export { default as solutionImg1 } from "./solutionImg1.svg";
 export { default as solutionImg2 } from "./solutionImg2.svg";
 export { default as solutionImg3 } from "./solutionImg3.svg";
