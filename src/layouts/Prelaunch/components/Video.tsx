@@ -5,7 +5,7 @@ import { useState } from "react";
 const Video = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   return (
-    <div className=" border-t-2 border-borderColor py-20  relative flex justify-center w-full overflow-hidden">
+    <div className=" border-t-1 border-borderColor py-20  relative flex justify-center w-full overflow-hidden">
       
       {/* Stars animation */}
       <div className="absolute inset-0 pointer-events-none">
