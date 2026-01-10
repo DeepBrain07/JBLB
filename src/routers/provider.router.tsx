@@ -8,6 +8,16 @@ import SignUp from "../layouts/Authentications/SignUp";
 import SignIn from "../layouts/Authentications/SignIn";
 import NotFound from "../layouts/NotFound";
 
+// DeFi Hub
+import { DeFiHubLayout } from "../layouts/DeFiHub/DeFiHubLayout";
+import { HubHome } from "../layouts/DeFiHub/HubHome";
+import { BlockchainDetail } from "../layouts/DeFiHub/BlockchainDetail";
+import { ProtocolDetail } from "../layouts/DeFiHub/ProtocolDetail";
+
+// Error Handling
+import { RouteErrorDisplay } from "../components/ErrorBoundary";
+import { NotFoundPage } from "../components/NotFoundPage";
+
 // Route paths
 export const ProviderRoutePaths = {
   Root: "/",
@@ -31,11 +41,13 @@ export const ProviderRouter = createBrowserRouter([
   {
     path: ProviderRoutePaths.Root,
     Component: Prelaunch,
+    errorElement: <RouteErrorDisplay />,
   },
 
   {
     path: ProviderRoutePaths.WaitlistCongratulations,
     Component: Congratulations,
+    errorElement: <RouteErrorDisplay />,
   },
 
   {
@@ -50,6 +62,32 @@ export const ProviderRouter = createBrowserRouter([
   {
     path: ProviderRoutePaths.WaitlistDashboard,
     Component: Dashboard,
+    errorElement: <RouteErrorDisplay />,
+  },
+
+  {
+    path: "/hub",
+    Component: DeFiHubLayout,
+    errorElement: <RouteErrorDisplay />,
+    children: [
+      {
+        index: true,
+        Component: HubHome,
+      },
+      {
+        path: "blockchain/:id",
+        Component: BlockchainDetail,
+      },
+      {
+        path: "protocol/:id",
+        Component: ProtocolDetail,
+      },
+    ],
+  },
+
+  {
+    path: ProviderRoutePaths.ErrorPage,
+    Component: NotFoundPage,
   },
 
   // 404 Catch-all Route
