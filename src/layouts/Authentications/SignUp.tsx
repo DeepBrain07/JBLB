@@ -79,7 +79,7 @@ const SignUp = () => {
         </div>
 
         {/* Form Component */}
-        <div className="w-full max-w-[550px] transition-all duration-500 hover:scale-[1.01]">
+        <div className="px-4 ">
           <SignUpForm />
         </div>
       </div>

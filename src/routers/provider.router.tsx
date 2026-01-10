@@ -16,7 +16,6 @@ import { ProtocolDetail } from "../layouts/DeFiHub/ProtocolDetail";
 
 // Error Handling
 import { RouteErrorDisplay } from "../components/ErrorBoundary";
-import { NotFoundPage } from "../components/NotFoundPage";
 
 // Route paths
 export const ProviderRoutePaths = {
@@ -83,11 +82,6 @@ export const ProviderRouter = createBrowserRouter([
         Component: ProtocolDetail,
       },
     ],
-  },
-
-  {
-    path: ProviderRoutePaths.ErrorPage,
-    Component: NotFoundPage,
   },
 
   // 404 Catch-all Route

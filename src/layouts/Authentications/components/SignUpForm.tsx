@@ -5,20 +5,21 @@ import { useState } from "react";
 export const SignUpForm = () => {
   const navigate = useNavigate();
 
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
-  const ENDPOINT = `${BASE_URL}/waitlist/submit/`;
+  const ENDPOINT = "/api/users/signup/"; 
 
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  // New state for success feedback
+  const [successMsg, setSuccessMsg] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validation
-    if (!username.trim() || !password.trim() || !confirmPassword.trim()) {
+    if (!username.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()) {
       setErrorMsg("Please fill in all fields.");
       return;
     }
@@ -31,6 +32,7 @@ export const SignUpForm = () => {
     try {
       setLoading(true);
       setErrorMsg("");
+      setSuccessMsg("");
 
       const response = await fetch(ENDPOINT, {
         method: "POST",
@@ -39,18 +41,27 @@ export const SignUpForm = () => {
         },
         body: JSON.stringify({
           username,
-          password, // Assuming the backend is updated to receive password
+          email,
+          password,
         }),
       });
 
+      const data = await response.json().catch(() => null);
+
       if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        throw new Error(errorData?.message || "Something went wrong");
+        throw new Error(data?.message || "Registration failed.");
       }
 
-      navigate("/wishlist/congratulations");
+      // 1. Show Congratulations message
+      setSuccessMsg("CONGRATULATIONS! ACCOUNT CREATED SUCCESSFULLY.");
+
+      // 2. Redirect to login after 3 seconds
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+
     } catch (error: any) {
-      setErrorMsg(error.message || "Failed to join waitlist.");
+      setErrorMsg(error.message || "Something went wrong.");
     } finally {
       setLoading(false);
     }
@@ -67,15 +78,24 @@ export const SignUpForm = () => {
       }}
     >
       <div className="p-6 flex flex-col gap-4">
-
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-
+          
           <input
             type="text"
             placeholder="ENTER X USERNAME"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full bg-[#111] border border-borderColor text-white px-4 py-4 placeholder-bodyTextDim focus:outline-none"
+            disabled={!!successMsg}
+            className="w-full bg-[#111] border border-borderColor text-white px-4 py-4 placeholder-bodyTextDim focus:outline-none disabled:opacity-50"
+          />
+
+          <input
+            type="email"
+            placeholder="ENTER YOUR EMAIL"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={!!successMsg}
+            className="w-full bg-[#111] border border-borderColor text-white px-4 py-4 placeholder-bodyTextDim focus:outline-none disabled:opacity-50"
           />
 
           <input
@@ -83,7 +103,8 @@ export const SignUpForm = () => {
             placeholder="ENTER PASSWORD"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-[#111] border border-borderColor text-white px-4 py-4 placeholder-bodyTextDim focus:outline-none"
+            disabled={!!successMsg}
+            className="w-full bg-[#111] border border-borderColor text-white px-4 py-4 placeholder-bodyTextDim focus:outline-none disabled:opacity-50"
           />
 
           <input
@@ -91,36 +112,49 @@ export const SignUpForm = () => {
             placeholder="CONFIRM PASSWORD"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full bg-[#111] border border-borderColor text-white px-4 py-4 placeholder-bodyTextDim focus:outline-none"
+            disabled={!!successMsg}
+            className="w-full bg-[#111] border border-borderColor text-white px-4 py-4 placeholder-bodyTextDim focus:outline-none disabled:opacity-50"
           />
+
+          {/* Success Message */}
+          {successMsg && (
+            <div className="animate-pulse">
+               <p className="text-primary text-sm font-bold font-mono uppercase tracking-[0.2em] text-center">
+                {successMsg}
+              </p>
+              <p className="text-bodyTextDim text-[10px] text-center mt-1 uppercase">Redirecting to login...</p>
+            </div>
+          )}
 
           {/* Error Message */}
           {errorMsg && (
-            <p className="text-red-500 text-sm font-mono uppercase tracking-widest">{errorMsg}</p>
+            <p className="text-red-500 text-sm font-mono uppercase tracking-widest text-center">{errorMsg}</p>
           )}
 
           <div className="flex flex-col gap-2 mt-2">
-            <p className="text-xs tracking-widest text-bodyTextDim uppercase text-center">
-                Already on the waitlist?{" "}
-                <span 
-                    onClick={() => navigate("/login")} // Update path as needed
-                    className="text-primary cursor-pointer hover:underline underline-offset-4"
+            {!successMsg && (
+              <>
+                <p className="text-xs tracking-widest text-bodyTextDim uppercase text-center">
+                    Already registered?{" "}
+                    <span 
+                        onClick={() => navigate("/login")} 
+                        className="text-primary cursor-pointer hover:underline underline-offset-4"
+                    >
+                        Login
+                    </span>
+                </p>
+
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full bg-[#A9EF2E] text-black font-bold py-4 hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest"
                 >
-                    Login
-                </span>
-            </p>
-
-            <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-[#A9EF2E] text-black font-bold py-4 hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest"
-            >
-                {loading ? "PROCESSING..." : "SIGN UP"}
-            </button>
+                    {loading ? "PROCESSING..." : "SIGN UP"}
+                </button>
+              </>
+            )}
           </div>
-
         </form>
-
       </div>
     </div>
   );

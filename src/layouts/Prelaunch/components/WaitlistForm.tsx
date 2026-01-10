@@ -5,8 +5,11 @@ import { useState } from "react";
 export const WaitlistForm = () => {
   const navigate = useNavigate();
 
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
-  const ENDPOINT = `${BASE_URL}/waitlist/submit/`;
+  /**
+   * By using the /api prefix, the Vite proxy configured in vite.config.ts
+   * intercepts this request and forwards it to https://jblb-app.onrender.com
+   */
+  const ENDPOINT = "/api/waitlist/submit/";
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -36,13 +39,23 @@ export const WaitlistForm = () => {
         }),
       });
 
+      const data = await response.json().catch(() => null);
+
       if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        throw new Error(errorData?.message || "Something went wrong");
+        throw new Error(data?.message || "Something went wrong");
       }
 
-      navigate("/wishlist/congratulations");
+      // Pass the dynamic data to the congratulations page
+      navigate("/waitlist/congratulations", {
+        state: {
+          id: data?.your_id,
+          referralLink: data?.your_referral_link,
+          xUsername: username,
+        },
+      });
     } catch (error: any) {
+      // Improved error logging to help debug proxy issues
+      console.error("Submission Error:", error);
       setErrorMsg(error.message || "Failed to join waitlist.");
     } finally {
       setLoading(false);
@@ -77,18 +90,20 @@ export const WaitlistForm = () => {
             className="w-full bg-[#111] border border-borderColor text-white px-4 py-4 placeholder-bodyTextDim focus:outline-none"
           />
 
-          {/* Error Message */}
-          {errorMsg && <p className="text-red-500 text-sm font-mono uppercase">{errorMsg}</p>}
+          {errorMsg && (
+            <p className="text-red-500 text-sm font-mono uppercase text-center">
+              {errorMsg}
+            </p>
+          )}
 
           <div className="flex flex-col gap-3 mt-2">
-            {/* Added Concise Link */}
             <p className="text-[10px] sm:text-xs tracking-[0.2em] text-bodyTextDim uppercase text-center">
               Joined the list?{" "}
               <span
                 onClick={() => navigate("/register")}
                 className="text-primary cursor-pointer hover:underline underline-offset-4 font-bold"
               >
-                Register to view dashboard
+                View dashboard
               </span>
             </p>
 
