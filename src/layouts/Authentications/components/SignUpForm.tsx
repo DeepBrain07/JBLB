@@ -2,22 +2,29 @@ import { waitlistFormBgAlt } from "../../../assets/images";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-export const WaitlistForm = () => {
+export const SignUpForm = () => {
   const navigate = useNavigate();
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const ENDPOINT = `${BASE_URL}/waitlist/submit/`;
 
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!username.trim() || !email.trim()) {
+    // Validation
+    if (!username.trim() || !password.trim() || !confirmPassword.trim()) {
       setErrorMsg("Please fill in all fields.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setErrorMsg("Passwords do not match.");
       return;
     }
 
@@ -32,7 +39,7 @@ export const WaitlistForm = () => {
         },
         body: JSON.stringify({
           username,
-          email,
+          password, // Assuming the backend is updated to receive password
         }),
       });
 
@@ -60,7 +67,9 @@ export const WaitlistForm = () => {
       }}
     >
       <div className="p-6 flex flex-col gap-4">
+
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+
           <input
             type="text"
             placeholder="ENTER X USERNAME"
@@ -70,37 +79,48 @@ export const WaitlistForm = () => {
           />
 
           <input
-            type="email"
-            placeholder="ENTER YOUR EMAIL"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="password"
+            placeholder="ENTER PASSWORD"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full bg-[#111] border border-borderColor text-white px-4 py-4 placeholder-bodyTextDim focus:outline-none"
+          />
+
+          <input
+            type="password"
+            placeholder="CONFIRM PASSWORD"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             className="w-full bg-[#111] border border-borderColor text-white px-4 py-4 placeholder-bodyTextDim focus:outline-none"
           />
 
           {/* Error Message */}
-          {errorMsg && <p className="text-red-500 text-sm font-mono uppercase">{errorMsg}</p>}
+          {errorMsg && (
+            <p className="text-red-500 text-sm font-mono uppercase tracking-widest">{errorMsg}</p>
+          )}
 
-          <div className="flex flex-col gap-3 mt-2">
-            {/* Added Concise Link */}
-            <p className="text-[10px] sm:text-xs tracking-[0.2em] text-bodyTextDim uppercase text-center">
-              Joined the list?{" "}
-              <span
-                onClick={() => navigate("/register")}
-                className="text-primary cursor-pointer hover:underline underline-offset-4 font-bold"
-              >
-                Register to view dashboard
-              </span>
+          <div className="flex flex-col gap-2 mt-2">
+            <p className="text-xs tracking-widest text-bodyTextDim uppercase text-center">
+                Already on the waitlist?{" "}
+                <span 
+                    onClick={() => navigate("/login")} // Update path as needed
+                    className="text-primary cursor-pointer hover:underline underline-offset-4"
+                >
+                    Login
+                </span>
             </p>
 
             <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-[#A9EF2E] text-black font-bold py-4 hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest"
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[#A9EF2E] text-black font-bold py-4 hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest"
             >
-              {loading ? "PROCESSING..." : "JOIN WAITLIST"}
+                {loading ? "PROCESSING..." : "SIGN UP"}
             </button>
           </div>
+
         </form>
+
       </div>
     </div>
   );

@@ -1,0 +1,9 @@
+### Register user
+POST https://jblb-app.onrender.com/api/waitlist/submit/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "testuser",
+  "email": "testuser@example.com"
+}
