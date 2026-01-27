@@ -17,7 +17,7 @@ const SignIn = () => {
         provider: 'x',
         options: {
           // redirectTo should be your site's callback URL
-          redirectTo: `{supabaseUrl}/auth/v1/callback`,
+          redirectTo: `${supabaseUrl}/auth/v1/callback`,
         },
       });
       if (error) throw error;
