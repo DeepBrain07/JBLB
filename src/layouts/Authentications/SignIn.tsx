@@ -1,8 +1,31 @@
 import { logo, bgMain } from "../../assets/images";
 import { Footer } from "../Prelaunch/components/Footer.tsx";
-import { SignInForm } from "./components/SignInForm.tsx"; // Ensure this matches your sign-in component name
+import { SignInForm } from "./components/SignInForm.tsx";
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize the Supabase Client
+// Ensure these environment variables are defined in your .env file
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const SignIn = () => {
+  // Handler for X (Twitter) Authentication
+  const handleXLogin = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'x',
+        options: {
+          // redirectTo should be your site's callback URL
+          redirectTo: `{supabaseUrl}/auth/v1/callback`,
+        },
+      });
+      if (error) throw error;
+    } catch (error) {
+      console.error("Authorization sync failed:", error);
+    }
+  };
+
   return (
     <div
       className="bg-[#000004] px-[7vw] absolute fit w-full opacity-100 bg-center text-white flex flex-col items-center pb-40 min-h-screen overflow-x-hidden"
@@ -79,9 +102,37 @@ const SignIn = () => {
             </p>
         </div>
 
-        {/* Sign In Form Component */}
-        <div className="px-4">
+        {/* Auth Interface */}
+        <div className="px-4 w-full max-w-[400px]">
           <SignInForm />
+
+          {/* Secure Divider */}
+          <div className="relative my-10">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-borderColor opacity-20"></span>
+            </div>
+            <div className="relative flex justify-center text-[10px] uppercase">
+              <span className="bg-[#000004] px-4 text-bodyTextDim tracking-[0.5em] font-mono">
+                External Linkage
+              </span>
+            </div>
+          </div>
+
+          {/* X Login Button */}
+          <button 
+            onClick={handleXLogin}
+            className="w-full flex items-center justify-center gap-3 bg-white/[0.03] border border-borderColor/50 hover:border-primary hover:bg-white/[0.07] transition-all duration-500 py-4 rounded-none group relative overflow-hidden"
+          >
+            {/* Hover Glow Effect */}
+            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="relative z-10 group-hover:text-primary transition-colors duration-300">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+            <span className="relative z-10 uppercase font-mono text-[11px] tracking-[0.3em] font-bold">
+              Authorize with X
+            </span>
+          </button>
         </div>
       </div>
 
