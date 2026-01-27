@@ -7,6 +7,8 @@ import Dashboard from "../layouts/Prelaunch/Dashboard";
 import SignUp from "../layouts/Authentications/SignUp";
 import SignIn from "../layouts/Authentications/SignIn";
 import NotFound from "../layouts/NotFound";
+import TermsOfService from "../layouts/TermsOfService";
+import PrivacyPolicy from "@/layouts/PrivacyPolicy";
 
 // DeFi Hub
 import { DeFiHubLayout } from "../layouts/DeFiHub/DeFiHubLayout";
@@ -28,6 +30,8 @@ export const ProviderRoutePaths = {
   ResetPassword: "/reset-password",
   WaitlistCongratulations: "/waitlist/congratulations",
   WaitlistDashboard: "/waitlist/dashboard",
+  TermsOfService: "/terms-of-service",
+  PrivacyPolicy: "/privacy-policy",
   ErrorPage: "*", // This acts as the wildcard for unmatched routes
 
   Dashboard: {
@@ -57,7 +61,14 @@ export const ProviderRouter = createBrowserRouter([
     path: ProviderRoutePaths.SignIn,
     Component: SignIn,
   },
-
+  {
+    path: ProviderRoutePaths.TermsOfService,
+    Component: TermsOfService,
+  },
+  {
+    path: ProviderRoutePaths.PrivacyPolicy,
+    Component: PrivacyPolicy,
+  },
   {
     path: ProviderRoutePaths.WaitlistDashboard,
     Component: Dashboard,

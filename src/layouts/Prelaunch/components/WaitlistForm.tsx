@@ -100,7 +100,7 @@ export const WaitlistForm = () => {
             <p className="text-[10px] sm:text-xs tracking-[0.2em] text-bodyTextDim uppercase text-center">
               Joined the list?{" "}
               <span
-                onClick={() => navigate("/register")}
+                onClick={() => navigate("/login")}
                 className="text-primary cursor-pointer hover:underline underline-offset-4 font-bold"
               >
                 View dashboard
