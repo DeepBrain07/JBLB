@@ -1,28 +1,29 @@
 import { logo, bgMain } from "../../assets/images";
 import { Footer } from "../Prelaunch/components/Footer.tsx";
 import { SignInForm } from "./components/SignInForm.tsx";
-import { createClient } from '@supabase/supabase-js';
-
-// Initialize the Supabase Client
-// Ensure these environment variables are defined in your .env file
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import { useSignIn } from "@clerk/clerk-react";
 
 const SignIn = () => {
-  // Handler for X (Twitter) Authentication
+  const { signIn, isLoaded } = useSignIn();
+
+  // Reference your environment variables for strict redirect control
+  // If these aren't in your .env yet, Clerk will use the defaults set in the dashboard
+  const signInUrl = import.meta.env.VITE_CLERK_SIGN_IN_URL || "/signin";
+  const dashboardUrl = import.meta.env.VITE_CLERK_AFTER_SIGN_IN_URL || "/dashboard";
+
   const handleXLogin = async () => {
+    if (!isLoaded) return;
+
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'x',
-        options: {
-          // redirectTo should be your site's callback URL
-          redirectTo: `${supabaseUrl}/auth/v1/callback`,
-        },
+      await signIn.authenticateWithRedirect({
+        strategy: "oauth_x",
+        // The intermediate Clerk hand-off point
+        redirectUrl: "/auth-callback", 
+        // Where the user ends up after a successful handshake
+        redirectUrlComplete: dashboardUrl,
       });
-      if (error) throw error;
     } catch (error) {
-      console.error("Authorization sync failed:", error);
+      console.error("Clerk Authorization failed:", error);
     }
   };
 
@@ -71,7 +72,7 @@ const SignIn = () => {
       {/* Main Content Container */}
       <div className="flex gap-12 w-full mt-16 max-w-[850px] flex-col text-center items-center p-6 z-10 relative">
         
-        {/* Verbose High-End Header Section */}
+        {/* Header Section */}
         <div className="flex flex-col gap-4 animate-fade-in">
             <div className="relative inline-block mx-auto mb-4">
                <img src={logo} alt="Logo" className="size-14 relative z-10" />
@@ -104,6 +105,7 @@ const SignIn = () => {
 
         {/* Auth Interface */}
         <div className="px-4 w-full max-w-[400px]">
+          {/* Ensure SignInForm is also updated to use Clerk hooks if it handles inputs */}
           <SignInForm />
 
           {/* Secure Divider */}
@@ -121,9 +123,9 @@ const SignIn = () => {
           {/* X Login Button */}
           <button 
             onClick={handleXLogin}
-            className="w-full flex items-center justify-center gap-3 bg-white/[0.03] border border-borderColor/50 hover:border-primary hover:bg-white/[0.07] transition-all duration-500 py-4 rounded-none group relative overflow-hidden"
+            disabled={!isLoaded}
+            className="w-full flex items-center justify-center gap-3 bg-white/[0.03] border border-borderColor/50 hover:border-primary hover:bg-white/[0.07] transition-all duration-500 py-4 rounded-none group relative overflow-hidden disabled:opacity-50"
           >
-            {/* Hover Glow Effect */}
             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="relative z-10 group-hover:text-primary transition-colors duration-300">
