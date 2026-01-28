@@ -8,7 +8,7 @@ const SignIn = () => {
 
   // Reference your environment variables for strict redirect control
   // If these aren't in your .env yet, Clerk will use the defaults set in the dashboard
-  const signInUrl = import.meta.env.VITE_CLERK_SIGN_IN_URL || "/signin";
+  // const _signInUrl = import.meta.env.VITE_CLERK_SIGN_IN_URL || "/signin";
   const dashboardUrl = import.meta.env.VITE_CLERK_AFTER_SIGN_IN_URL || "/dashboard";
 
   const handleXLogin = async () => {
@@ -132,7 +132,7 @@ const SignIn = () => {
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
             </svg>
             <span className="relative z-10 uppercase font-mono text-[11px] tracking-[0.3em] font-bold">
-              Authorize with X
+              Authorize 
             </span>
           </button>
         </div>
