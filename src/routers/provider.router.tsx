@@ -6,6 +6,7 @@ import Congratulations from "../layouts/Prelaunch/Congratulations";
 import Dashboard from "../layouts/Prelaunch/Dashboard";
 import SignUp from "../layouts/Authentications/SignUp";
 import SignIn from "../layouts/Authentications/SignIn";
+import AuthCallback from "../layouts/Authentications/AuthCallback";
 import NotFound from "../layouts/NotFound";
 import TermsOfService from "../layouts/TermsOfService";
 import PrivacyPolicy from "@/layouts/PrivacyPolicy";
@@ -28,6 +29,7 @@ export const ProviderRoutePaths = {
   Provider: "/provider",
   User: "/user",
   ResetPassword: "/reset-password",
+  AuthCallback: "/auth-callback",
   WaitlistCongratulations: "/waitlist/congratulations",
   WaitlistDashboard: "/waitlist/dashboard",
   TermsOfService: "/terms-of-service",
@@ -60,6 +62,10 @@ export const ProviderRouter = createBrowserRouter([
   {
     path: ProviderRoutePaths.SignIn,
     Component: SignIn,
+  },
+  {
+    path: ProviderRoutePaths.AuthCallback,
+    Component: AuthCallback,
   },
   {
     path: ProviderRoutePaths.TermsOfService,
