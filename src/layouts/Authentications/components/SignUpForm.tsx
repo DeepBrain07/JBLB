@@ -1,11 +1,13 @@
 import { waitlistFormBgAlt } from "../../../assets/images";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useClerk } from "@clerk/clerk-react";
 
 export const SignUpForm = () => {
   const navigate = useNavigate();
+  const { signOut } = useClerk();
 
-  const ENDPOINT = "/api/users/signup/"; 
+  const ENDPOINT = "/api/users/signup/";
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -52,13 +54,27 @@ export const SignUpForm = () => {
         throw new Error(data?.message || "Registration failed.");
       }
 
-      // 1. Show Congratulations message
-      setSuccessMsg("CONGRATULATIONS! ACCOUNT CREATED SUCCESSFULLY.");
+      // --- AUTO-LOGIN AFTER REGISTRATION ---
 
-      // 2. Redirect to login after 3 seconds
+      // 1. Clear any existing Clerk session to prevent conflicts
+      // Wrap in try-catch since signOut might fail if no session exists
+      try {
+        await signOut();
+      } catch (err) {
+        // Ignore errors - it's okay if there's no session to clear
+        console.log("No Clerk session to clear (expected for new users)");
+      }
+
+      // 2. Store user data in localStorage (same as SignInForm)
+      localStorage.setItem("user", JSON.stringify(data));
+
+      // 3. Show success message
+      setSuccessMsg("CONGRATULATIONS! ACCOUNT CREATED. INITIALIZING DASHBOARD...");
+
+      // 4. Redirect to dashboard after 2 seconds
       setTimeout(() => {
-        navigate("/login");
-      }, 3000);
+        navigate("/dashboard");
+      }, 2000);
 
     } catch (error: any) {
       setErrorMsg(error.message || "Something went wrong.");
@@ -79,7 +95,7 @@ export const SignUpForm = () => {
     >
       <div className="p-6 flex flex-col gap-4">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          
+
           <input
             type="text"
             placeholder="ENTER X USERNAME"
@@ -119,10 +135,10 @@ export const SignUpForm = () => {
           {/* Success Message */}
           {successMsg && (
             <div className="animate-pulse">
-               <p className="text-primary text-sm font-bold font-mono uppercase tracking-[0.2em] text-center">
+              <p className="text-primary text-sm font-bold font-mono uppercase tracking-[0.2em] text-center">
                 {successMsg}
               </p>
-              <p className="text-bodyTextDim text-[10px] text-center mt-1 uppercase">Redirecting to login...</p>
+              <p className="text-bodyTextDim text-[10px] text-center mt-1 uppercase">Accessing dashboard...</p>
             </div>
           )}
 
@@ -135,21 +151,21 @@ export const SignUpForm = () => {
             {!successMsg && (
               <>
                 <p className="text-xs tracking-widest text-bodyTextDim uppercase text-center">
-                    Already registered?{" "}
-                    <span 
-                        onClick={() => navigate("/login")} 
-                        className="text-primary cursor-pointer hover:underline underline-offset-4"
-                    >
-                        Login
-                    </span>
+                  Already registered?{" "}
+                  <span
+                    onClick={() => navigate("/login")}
+                    className="text-primary cursor-pointer hover:underline underline-offset-4"
+                  >
+                    Login
+                  </span>
                 </p>
 
                 <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full bg-[#A9EF2E] text-black font-bold py-4 hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest"
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-[#A9EF2E] text-black font-bold py-4 hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest"
                 >
-                    {loading ? "PROCESSING..." : "SIGN UP"}
+                  {loading ? "PROCESSING..." : "SIGN UP"}
                 </button>
               </>
             )}

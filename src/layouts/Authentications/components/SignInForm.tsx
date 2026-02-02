@@ -7,7 +7,7 @@ export const SignInForm = () => {
   const navigate = useNavigate();
   const { signOut } = useClerk(); // Get the signOut function from Clerk
 
-  const ENDPOINT = "/api/users/login/"; 
+  const ENDPOINT = "/api/users/login/";
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -48,12 +48,18 @@ export const SignInForm = () => {
       // --- HYBRID AUTH ADDITIONS START ---
 
       // 1. Clear any existing Clerk session to prevent "split-brain" auth
-      await signOut();
+      // Wrap in try-catch since signOut might fail if no session exists
+      try {
+        await signOut();
+      } catch (err) {
+        // Ignore errors - it's okay if there's no session to clear
+        console.log("No Clerk session to clear");
+      }
 
       // 2. Persist your custom login data to localStorage
       // This is what the ProtectedRoute will check
-      localStorage.setItem("user", JSON.stringify(data)); 
-      
+      localStorage.setItem("user", JSON.stringify(data));
+
       // --- HYBRID AUTH ADDITIONS END ---
 
       setSuccessMsg("ACCESS GRANTED. INITIALIZING DASHBOARD...");
@@ -118,8 +124,8 @@ export const SignInForm = () => {
               <>
                 <p className="text-xs tracking-widest text-bodyTextDim uppercase text-center">
                   New to the network?{" "}
-                  <span 
-                    onClick={() => navigate("/register")} 
+                  <span
+                    onClick={() => navigate("/register")}
                     className="text-primary cursor-pointer hover:underline underline-offset-4"
                   >
                     Register

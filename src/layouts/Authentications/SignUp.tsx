@@ -1,8 +1,28 @@
 import { logo, bgMain } from "../../assets/images";
 import { Footer } from "../Prelaunch/components/Footer.tsx";
 import { SignUpForm } from "./components/SignUpForm.tsx";
+import { useSignUp } from "@clerk/clerk-react";
 
 const SignUp = () => {
+  const { signUp, isLoaded } = useSignUp();
+
+  // Reference environment variables for redirect control
+  const dashboardUrl = import.meta.env.VITE_CLERK_AFTER_SIGN_UP_URL || "/dashboard";
+
+  const handleXSignUp = async () => {
+    if (!isLoaded) return;
+
+    try {
+      await signUp.authenticateWithRedirect({
+        strategy: "oauth_x",
+        redirectUrl: "/auth-callback",
+        redirectUrlComplete: dashboardUrl,
+      });
+    } catch (error) {
+      console.error("Clerk Authorization failed:", error);
+    }
+  };
+
   return (
     <div
       className="bg-[#000004] px-[7vw] absolute fit w-full opacity-100 bg-center text-white flex flex-col items-center pb-40 min-h-screen overflow-x-hidden"
@@ -16,7 +36,7 @@ const SignUp = () => {
         className="border-l-2 border-borderColor w-[7vw] absolute z-[50] right-0 top-0 h-full opacity-70 bg-repeat-y bg-top"
         style={{ backgroundImage: `url(${bgMain})` }}
       ></div>
-      
+
       <Footer />
 
       {/* Ambient Star Field */}
@@ -46,41 +66,69 @@ const SignUp = () => {
 
       {/* Main Content Container */}
       <div className="flex gap-12 w-full mt-16 max-w-[850px] flex-col text-center items-center p-6 z-10 relative">
-        
+
         {/* Verbose High-End Header Section */}
         <div className="flex flex-col gap-4 animate-fade-in">
-            <div className="relative inline-block mx-auto mb-4">
-               <img src={logo} alt="Logo" className="size-14 relative z-10" />
-               <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full"></div>
-            </div>
-            
-            <div className="flex flex-col gap-1">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-[0.15em] leading-tight">
-                Secure Your <br className="sm:hidden" />
-                <span className="text-primary drop-shadow-[0_0_15px_rgba(169,239,46,0.5)]">
-                    Registration
-                </span>
-              </h2>
-              
-              <div className="flex items-center justify-center gap-4 mt-2">
-                <div className="h-[1px] w-8 bg-borderColor"></div>
-                <p className="text-bodyTextDim text-xs sm:text-sm uppercase tracking-[0.4em] font-mono font-medium">
-                    Initialize & View Your Dashboard
-                </p>
-                <div className="h-[1px] w-8 bg-borderColor"></div>
-              </div>
-            </div>
+          <div className="relative inline-block mx-auto mb-4">
+            <img src={logo} alt="Logo" className="size-14 relative z-10" />
+            <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full"></div>
+          </div>
 
-            <p className="text-bodyTextDim max-w-lg mx-auto text-xs sm:text-sm mt-2 leading-relaxed opacity-80 uppercase tracking-widest">
-              Join the elite network and gain real-time access to your 
-              <span className="text-white px-2">YieldSport™ Analytics</span> 
-              and proprietary performance metrics.
-            </p>
+          <div className="flex flex-col gap-1">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-[0.15em] leading-tight">
+              Secure Your <br className="sm:hidden" />
+              <span className="text-primary drop-shadow-[0_0_15px_rgba(169,239,46,0.5)]">
+                Registration
+              </span>
+            </h2>
+
+            <div className="flex items-center justify-center gap-4 mt-2">
+              <div className="h-[1px] w-8 bg-borderColor"></div>
+              <p className="text-bodyTextDim text-xs sm:text-sm uppercase tracking-[0.4em] font-mono font-medium">
+                Initialize & View Your Dashboard
+              </p>
+              <div className="h-[1px] w-8 bg-borderColor"></div>
+            </div>
+          </div>
+
+          <p className="text-bodyTextDim max-w-lg mx-auto text-xs sm:text-sm mt-2 leading-relaxed opacity-80 uppercase tracking-widest">
+            Join the elite network and gain real-time access to your
+            <span className="text-white px-2">YieldSport™ Analytics</span>
+            and proprietary performance metrics.
+          </p>
         </div>
 
         {/* Form Component */}
-        <div className="px-4 ">
+        <div className="px-4 w-full max-w-[400px]">
           <SignUpForm />
+
+          {/* Secure Divider */}
+          <div className="relative my-10">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-borderColor opacity-20"></span>
+            </div>
+            <div className="relative flex justify-center text-[10px] uppercase">
+              <span className="bg-[#000004] px-4 text-bodyTextDim tracking-[0.5em] font-mono">
+                External Linkage
+              </span>
+            </div>
+          </div>
+
+          {/* X SignUp Button */}
+          <button
+            onClick={handleXSignUp}
+            disabled={!isLoaded}
+            className="w-full flex items-center justify-center gap-3 bg-white/[0.03] border border-borderColor/50 hover:border-primary hover:bg-white/[0.07] transition-all duration-500 py-4 rounded-none group relative overflow-hidden disabled:opacity-50"
+          >
+            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="relative z-10 group-hover:text-primary transition-colors duration-300">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+            <span className="relative z-10 uppercase font-mono text-[11px] tracking-[0.3em] font-bold">
+              Authorize
+            </span>
+          </button>
         </div>
       </div>
 

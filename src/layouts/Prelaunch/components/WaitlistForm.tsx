@@ -9,7 +9,7 @@ export const WaitlistForm = () => {
    * By using the /api prefix, the Vite proxy configured in vite.config.ts
    * intercepts this request and forwards it to https://jblb-app.onrender.com
    */
-  const ENDPOINT = "waitlist/submit/";
+  const ENDPOINT = "/api/waitlist/submit/";
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
