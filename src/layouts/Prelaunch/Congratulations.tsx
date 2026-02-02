@@ -3,6 +3,7 @@ import { Button } from "../../components/ButtonAlt.tsx";
 import { Footer } from "./components/Footer.tsx";
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import { WAITLIST_ID_STORAGE_KEY } from "@/services/authApi";
 import { triggerTechConfetti } from "../../utils/confetti";
 
 const Congratulations = () => {
@@ -16,6 +17,13 @@ const Congratulations = () => {
     referralLink: "https://yieldsport.xyz",
     xUsername: "USER",
   };
+
+  // Store waitlist id so when they sign in with X, backend can merge this record with the Clerk user
+  useEffect(() => {
+    if (id && id !== "JBLB-PENDING" && typeof window !== "undefined") {
+      window.localStorage.setItem(WAITLIST_ID_STORAGE_KEY, String(id));
+    }
+  }, [id]);
 
   useEffect(() => {
     const timer = setTimeout(() => {

@@ -4,20 +4,24 @@ import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import { ProviderRouter } from "./routers/provider.router";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import { ClerkProvider } from "@clerk/clerk-react"; // Import Clerk
+import { ClerkProvider } from "@clerk/clerk-react";
 
-// Fetch the key from your .env file
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Clerk Publishable Key. Please add VITE_CLERK_PUBLISHABLE_KEY to your .env file.");
+  throw new Error("Missing Clerk Publishable Key.");
 }
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ErrorBoundary>
-      {/* Wrap your router with ClerkProvider */}
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+      <ClerkProvider 
+        publishableKey={PUBLISHABLE_KEY} 
+        // 1. Ensure Clerk knows exactly where to go after auth
+        signInFallbackRedirectUrl="/dashboard"
+        signUpFallbackRedirectUrl="/dashboard"
+        afterSignOutUrl="/"
+      >
         <RouterProvider router={ProviderRouter} />
       </ClerkProvider>
     </ErrorBoundary>

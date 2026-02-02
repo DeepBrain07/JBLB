@@ -9,7 +9,7 @@ export const WaitlistForm = () => {
    * By using the /api prefix, the Vite proxy configured in vite.config.ts
    * intercepts this request and forwards it to https://jblb-app.onrender.com
    */
-  const ENDPOINT = "/api/waitlist/submit/";
+  const ENDPOINT = "waitlist/submit/";
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -100,7 +100,7 @@ export const WaitlistForm = () => {
             <p className="text-[10px] sm:text-xs tracking-[0.2em] text-bodyTextDim uppercase text-center">
               Joined the list?{" "}
               <span
-                onClick={() => navigate("/login")}
+                onClick={() => navigate("/dashboard")}
                 className="text-primary cursor-pointer hover:underline underline-offset-4 font-bold"
               >
                 View dashboard

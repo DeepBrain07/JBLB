@@ -17,9 +17,7 @@ const SignIn = () => {
     try {
       await signIn.authenticateWithRedirect({
         strategy: "oauth_x",
-        // The intermediate Clerk hand-off point
-        redirectUrl: "/auth-callback", 
-        // Where the user ends up after a successful handshake
+        redirectUrl: "/auth-callback",
         redirectUrlComplete: dashboardUrl,
       });
     } catch (error) {

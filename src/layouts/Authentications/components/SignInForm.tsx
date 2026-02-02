@@ -1,11 +1,12 @@
 import { waitlistFormBgAlt } from "../../../assets/images";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useClerk } from "@clerk/clerk-react"; // Import useClerk
 
 export const SignInForm = () => {
   const navigate = useNavigate();
+  const { signOut } = useClerk(); // Get the signOut function from Clerk
 
-  // Updated endpoint to use the Vite proxy path
   const ENDPOINT = "/api/users/login/"; 
 
   const [username, setUsername] = useState("");
@@ -44,12 +45,21 @@ export const SignInForm = () => {
         throw new Error(data?.message || "Invalid credentials. access denied.");
       }
 
-      // 1. Set Success Feedback
+      // --- HYBRID AUTH ADDITIONS START ---
+
+      // 1. Clear any existing Clerk session to prevent "split-brain" auth
+      await signOut();
+
+      // 2. Persist your custom login data to localStorage
+      // This is what the ProtectedRoute will check
+      localStorage.setItem("user", JSON.stringify(data)); 
+      
+      // --- HYBRID AUTH ADDITIONS END ---
+
       setSuccessMsg("ACCESS GRANTED. INITIALIZING DASHBOARD...");
 
-      // 2. Redirect to dashboard after a short delay
       setTimeout(() => {
-        navigate("/waitlist/dashboard");
+        navigate("/dashboard");
       }, 2000);
 
     } catch (error: any) {
@@ -89,7 +99,6 @@ export const SignInForm = () => {
             className="w-full bg-[#111] border border-borderColor text-white px-4 py-4 placeholder-bodyTextDim focus:outline-none focus:border-primary transition-colors uppercase text-xs tracking-widest disabled:opacity-50"
           />
 
-          {/* Success Message Area */}
           {successMsg && (
             <div className="animate-pulse py-2">
               <p className="text-primary text-sm font-bold font-mono uppercase tracking-[0.2em] text-center">
@@ -98,7 +107,6 @@ export const SignInForm = () => {
             </div>
           )}
 
-          {/* Error Message Area */}
           {errorMsg && (
             <p className="text-red-500 text-sm font-mono uppercase tracking-widest text-center">
               {errorMsg}

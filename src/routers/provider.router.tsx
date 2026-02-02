@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Prelaunch from "../layouts/Prelaunch/Pralaunch";
 import Congratulations from "../layouts/Prelaunch/Congratulations";
 import Dashboard from "../layouts/Prelaunch/Dashboard";
+import ProtectedRoute from "../layouts/AuthLayout/ProtectedRoute";
 import SignUp from "../layouts/Authentications/SignUp";
 import SignIn from "../layouts/Authentications/SignIn";
 import AuthCallback from "../layouts/Authentications/AuthCallback";
@@ -31,7 +32,7 @@ export const ProviderRoutePaths = {
   ResetPassword: "/reset-password",
   AuthCallback: "/auth-callback",
   WaitlistCongratulations: "/waitlist/congratulations",
-  WaitlistDashboard: "/waitlist/dashboard",
+  WaitlistDashboard: "/dashboard",
   TermsOfService: "/terms-of-service",
   PrivacyPolicy: "/privacy-policy",
   ErrorPage: "*", // This acts as the wildcard for unmatched routes
@@ -60,6 +61,10 @@ export const ProviderRouter = createBrowserRouter([
     Component: SignUp,
   },
   {
+    path: "/register",
+    Component: SignUp,
+  },
+  {
     path: ProviderRoutePaths.SignIn,
     Component: SignIn,
   },
@@ -77,7 +82,11 @@ export const ProviderRouter = createBrowserRouter([
   },
   {
     path: ProviderRoutePaths.WaitlistDashboard,
-    Component: Dashboard,
+    Component: () => (
+      <ProtectedRoute>
+        <Dashboard />
+      </ProtectedRoute>
+    ),
     errorElement: <RouteErrorDisplay />,
   },
 
