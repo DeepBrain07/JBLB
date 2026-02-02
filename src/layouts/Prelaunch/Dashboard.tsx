@@ -1,13 +1,13 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { avatar, bgMain } from "../../assets/images/index.ts";
 import { Footer } from "./components/Footer.tsx";
-import { useState, useEffect } from "react";
-import { useSyncUserToBackend } from "@/hooks/useSyncUserToBackend";
+import { useState,  } from "react";
+// import { useSyncUserToBackend } from "@/hooks/useSyncUserToBackend";
 import "./dashboard.css";
 import WaitlistTable from "./components/WaitlistTable.tsx";
 import Leaderboard from "./components/Leaderboard.tsx";
 import EmailInviteSection from "./components/EmailInviteSection.tsx";
-import { useAuth } from "@clerk/clerk-react";
+// import { useAuth, useSession } from "@clerk/clerk-react";
 
 const steps = [
   {
@@ -43,11 +43,11 @@ const subSteps = [
 const Dashboard = () => {
   // useSyncUserToBackend();
   // 2. Get getToken from Clerk
-  const { getToken, isSignedIn } = useAuth(); 
+  // const { getToken, isSignedIn } = useSession(); 
 
   const [copied, setCopied] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [loading, _setLoading] = useState(true);
+  const [dashboardData, _setDashboardData] = useState<any>(null);
 
   // useEffect(() => {
   //   const fetchDashboardData = async () => {

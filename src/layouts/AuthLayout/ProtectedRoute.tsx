@@ -1,4 +1,4 @@
-import { useAuth, useSession } from "@clerk/clerk-react";
+import { useSession } from "@clerk/clerk-react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useEffect, useState, type ReactNode } from "react";
 
