@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 // Layouts / Pages
 import Prelaunch from "../layouts/Prelaunch/Pralaunch";
@@ -18,9 +18,6 @@ import { HubHome } from "../layouts/DeFiHub/HubHome";
 import { BlockchainDetail } from "../layouts/DeFiHub/BlockchainDetail";
 import { ProtocolDetail } from "../layouts/DeFiHub/ProtocolDetail";
 
-// Error Handling
-import { RouteErrorDisplay } from "../components/ErrorBoundary";
-
 // Route paths
 export const ProviderRoutePaths = {
   Root: "/",
@@ -31,11 +28,12 @@ export const ProviderRoutePaths = {
   User: "/user",
   ResetPassword: "/reset-password",
   AuthCallback: "/auth-callback",
+  Waitlist: "/waitlist",
   WaitlistCongratulations: "/waitlist/congratulations",
   WaitlistDashboard: "/dashboard",
   TermsOfService: "/terms-of-service",
   PrivacyPolicy: "/privacy-policy",
-  ErrorPage: "*", // This acts as the wildcard for unmatched routes
+  ErrorPage: "*",
 
   Dashboard: {
     Index: "/dashboard",
@@ -44,16 +42,19 @@ export const ProviderRoutePaths = {
 };
 
 export const ProviderRouter = createBrowserRouter([
+  // REDIRECT: Root route "/" now redirects to "/waitlist"
   {
     path: ProviderRoutePaths.Root,
+    element: <Navigate to={ProviderRoutePaths.Waitlist} replace />,
+  },
+  {
+    path: ProviderRoutePaths.Waitlist,
     Component: Prelaunch,
-    errorElement: <RouteErrorDisplay />,
   },
 
   {
     path: ProviderRoutePaths.WaitlistCongratulations,
     Component: Congratulations,
-    errorElement: <RouteErrorDisplay />,
   },
 
   {
@@ -62,7 +63,7 @@ export const ProviderRouter = createBrowserRouter([
   },
   {
     path: "/register",
-    Component: SignUp,
+    element: <Navigate to={ProviderRoutePaths.SignUp} replace />,
   },
   {
     path: ProviderRoutePaths.SignIn,
@@ -82,18 +83,16 @@ export const ProviderRouter = createBrowserRouter([
   },
   {
     path: ProviderRoutePaths.WaitlistDashboard,
-    Component: () => (
+    element: (
       <ProtectedRoute>
         <Dashboard />
       </ProtectedRoute>
     ),
-    errorElement: <RouteErrorDisplay />,
   },
 
   {
     path: "/hub",
     Component: DeFiHubLayout,
-    errorElement: <RouteErrorDisplay />,
     children: [
       {
         index: true,

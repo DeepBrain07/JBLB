@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Button } from "../../../components/ButtonAlt";
 
-const EmailInviteSection = () => {
+const EmailInviteSection = (referralLink: any) => {
+  console.log("Referral Link in EmailInviteSection:", referralLink.referralLink);
   const [emails, setEmails] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [message, setMessage] = useState(
-    "Hey, I've secured early access to JBLB YieldSport - a new platform where DeFi meets competitive strategy. Join me using my link so we can build a club together and earn from day one. [jblb.org/waitlist?ref=JBLB-FOUNDER-28]"
+    `Hey, I've secured early access to JBLB YieldSport - a new platform where DeFi meets competitive strategy. Join me using my link so we can build a club together and earn from day one. ${referralLink.referralLink}`
   );
 
   const addEmail = (value: string) => {

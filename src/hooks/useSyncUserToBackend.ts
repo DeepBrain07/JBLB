@@ -1,33 +1,48 @@
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth, useUser } from "@clerk/clerk-react";
 import { useEffect, useRef } from "react";
 import { syncUserToBackend, WAITLIST_ID_STORAGE_KEY } from "@/services/authApi";
 
-/**
- * When the user is signed in, syncs them to your backend once per session
- * so they exist in your database. If they previously joined the waitlist,
- * we send their waitlist_id so the backend can merge the X user with that record (username + email).
- */
 export function useSyncUserToBackend() {
   const { isLoaded, isSignedIn, getToken } = useAuth();
+  const { user } = useUser();
   const syncedRef = useRef(false);
 
   useEffect(() => {
-    if (!isLoaded || !isSignedIn || !getToken) return;
-    if (syncedRef.current) return;
+    // 1. Wait for everything to load
+    if (!isLoaded || !isSignedIn || !user || syncedRef.current) return;
 
     let cancelled = false;
-    const waitlistId =
-      typeof window !== "undefined"
-        ? window.localStorage.getItem(WAITLIST_ID_STORAGE_KEY)
-        : null;
 
-    const payload = waitlistId ? { waitlist_id: waitlistId } : undefined;
+    // 2. Extract specific data for your backend requirements
+    // const email = user.primaryEmailAddress?.emailAddress || "";
+    
+    // For Twitter, 'username' is often in the external account object
+    const twitterAccount = user.externalAccounts.find(acc => acc.provider === 'twitter' || acc.provider === 'x');
+    const username = user.username || twitterAccount?.username || "unknown";
+    const provider = twitterAccount ? "twitter" : "google"; // Basic logic to detect provider
 
+    // 3. Get referral code from URL (if any) or LocalStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    const referral_code = urlParams.get("ref") || "";
+
+    // 4. Get waitlist ID from storage
+    const waitlistId = window.localStorage.getItem(WAITLIST_ID_STORAGE_KEY);
+
+    const payload = {
+      clerk_user_id: user.id,
+      email: "deepbrain78@gmail.com",
+      username: username,
+      provider: provider,
+      referral_code: referral_code,
+      waitlist_id: waitlistId || undefined, 
+    };
+
+    console.log(payload)
     syncUserToBackend(getToken, payload).then((result) => {
       if (cancelled) return;
       if (result.ok) {
         syncedRef.current = true;
-        if (waitlistId && typeof window !== "undefined") {
+        if (waitlistId) {
           window.localStorage.removeItem(WAITLIST_ID_STORAGE_KEY);
         }
       } else {
@@ -38,5 +53,5 @@ export function useSyncUserToBackend() {
     return () => {
       cancelled = true;
     };
-  }, [isLoaded, isSignedIn, getToken]);
+  }, [isLoaded, isSignedIn, user, getToken]);
 }

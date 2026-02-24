@@ -102,9 +102,11 @@ const SignIn = () => {
         </div>
 
         {/* Auth Interface */}
-        <div className="px-4 w-full max-w-[400px]">
+        <div className="px-4 flex flex-col justify-center items-center w-full max-w-[400px]">
           {/* Ensure SignInForm is also updated to use Clerk hooks if it handles inputs */}
-          <SignInForm />
+          <div>
+            <SignInForm />
+          </div>
 
           {/* Secure Divider */}
           <div className="relative my-10">
@@ -112,9 +114,9 @@ const SignIn = () => {
               <span className="w-full border-t border-borderColor opacity-20"></span>
             </div>
             <div className="relative flex justify-center text-[10px] uppercase">
-              <span className="bg-[#000004] px-4 text-bodyTextDim tracking-[0.5em] font-mono">
+              {/* <span className="bg-[#000004] px-4 text-bodyTextDim tracking-[0.5em] font-mono">
                 External Linkage
-              </span>
+              </span> */}
             </div>
           </div>
 

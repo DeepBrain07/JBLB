@@ -1,9 +1,10 @@
 import { waitlistFormBgAlt } from "../../../assets/images";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 
 export const WaitlistForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   /**
    * By using the /api prefix, the Vite proxy configured in vite.config.ts
@@ -15,6 +16,11 @@ export const WaitlistForm = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
+  // Extract referral code from URL: https://yieldsport.xyz/waitlist?ref=GBLWWOF3GW
+  const queryParams = new URLSearchParams(location.search);
+  const referralCode = queryParams.get("ref");
+  console.log(referralCode ? `Referral code detected: ${referralCode}` : "No referral code in URL");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,6 +42,7 @@ export const WaitlistForm = () => {
         body: JSON.stringify({
           username,
           email,
+          referral_code: referralCode, // Included the referral code here
         }),
       });
 

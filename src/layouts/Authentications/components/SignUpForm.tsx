@@ -85,7 +85,7 @@ export const SignUpForm = () => {
 
   return (
     <div
-      className=" w-[80vw] bg-bgColor max-w-[600px] mx-auto bg-no-repeat bg-center bg-cover relative"
+      className="border-red-500 w-[80vw] bg-bgColor max-w-[600px] mx-auto bg-no-repeat bg-center bg-cover relative"
       style={{
         borderImage: `url(${waitlistFormBgAlt})`,
         borderImageWidth: "20px",

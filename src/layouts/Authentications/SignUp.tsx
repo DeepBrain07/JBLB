@@ -99,18 +99,19 @@ const SignUp = () => {
         </div>
 
         {/* Form Component */}
-        <div className="px-4 w-full max-w-[400px]">
-          <SignUpForm />
-
+        <div className=" px-4 w-full flex flex-col justify-center items-center max-w-[400px]">
+          <div>
+            <SignUpForm />
+          </div>
           {/* Secure Divider */}
           <div className="relative my-10">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t border-borderColor opacity-20"></span>
             </div>
             <div className="relative flex justify-center text-[10px] uppercase">
-              <span className="bg-[#000004] px-4 text-bodyTextDim tracking-[0.5em] font-mono">
+              {/* <span className="bg-[#000004] px-4 text-bodyTextDim tracking-[0.5em] font-mono">
                 External Linkage
-              </span>
+              </span> */}
             </div>
           </div>
 

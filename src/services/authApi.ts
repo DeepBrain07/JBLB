@@ -1,51 +1,64 @@
 /**
- * Syncs the current Clerk user to your backend so they exist in your database
- * and can be merged with their waitlist record (username + email).
- * The backend must verify the Clerk JWT and upsert/link the user (see BACKEND_AUTH.md).
+ * Syncs the current Clerk user to your backend so they exist in your database.
+ * The backend must verify the Clerk JWT and upsert/link the user.
  */
 
-const SYNC_ENDPOINT = "/api/waitlist/clerk-auth/";
+// 1. Base configuration
+const SYNC_ENDPOINT = `/api/waitlist/clerk-auth/`;
 
-/** Key used in localStorage to pass waitlist record id to sync (merge with X user). */
+/** Storage Keys */
 export const WAITLIST_ID_STORAGE_KEY = "jblb_waitlist_id";
+export const BACKEND_USER_DATA_KEY = "jblb_backend_user_data";
+export const BACKEND_ACCESS_TOKEN_KEY = "jblb_access_token";
 
 export type SyncUserResult =
-  | { ok: true; user?: { id: string; [key: string]: unknown } }
+  | { ok: true; user?: any }
   | { ok: false; error: string };
 
 export type SyncUserPayload = {
-  /** Waitlist record id (e.g. your_id from waitlist submit) so backend can link Clerk user to that row. */
+  clerk_user_id: string;
+  email: string;
+  username: string;
+  provider: string;
+  referral_code?: string;
   waitlist_id?: string;
 };
 
 /**
- * Sends the Clerk session token to your backend. Backend should:
- * 1. Verify the JWT with Clerk
- * 2. If payload.waitlist_id is present, update that waitlist row with clerk_user_id (merge)
- * 3. Else try matching waitlist by X username or email from Clerk
- * 4. Create/update user and return 200
+ * Sends Clerk user data to the backend, saves the response (tokens, IDs) 
+ * to localStorage for reference across the app.
  */
 export async function syncUserToBackend(
   getToken: (options?: { template?: string }) => Promise<string | null>,
   payload?: SyncUserPayload
 ): Promise<SyncUserResult> {
   const token = await getToken();
+  
   if (!token) {
     return { ok: false, error: "No session token" };
   }
 
   try {
+    console.log("Syncing user to backend at:", SYNC_ENDPOINT);
+    console.log("Payload:", payload);
+
     const response = await fetch(SYNC_ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        // Once backend CORS and JWT verification is active, uncomment below:
+        // "Authorization": `Bearer ${token}`,
       },
       body: JSON.stringify(payload ?? {}),
     });
 
-    const data = await response.json().catch(() => null);
-    console.log(response)
+    const contentType = response.headers.get("content-type");
+    let data: any = null;
+
+    if (contentType && contentType.includes("application/json")) {
+      data = await response.json();
+      console.log("Backend sync response data:", data);
+    }
 
     if (!response.ok) {
       return {
@@ -54,9 +67,23 @@ export async function syncUserToBackend(
       };
     }
 
-    return { ok: true, user: data?.user ?? undefined };
+    // --- REFERENCE DATA STORAGE ---
+    // Save the full response object for the frontend to use (referral links, wallet addresses, etc.)
+    if (data) {
+      localStorage.setItem(BACKEND_USER_DATA_KEY, JSON.stringify(data));
+      
+      // Specifically save the backend's own tokens if they exist
+      if (data.access_token) {
+        localStorage.setItem(BACKEND_ACCESS_TOKEN_KEY, data.access_token);
+      }
+      
+      console.log("✅ Backend data cached in localStorage for reference.");
+    }
+
+    return { ok: true, user: data };
   } catch (err) {
     const message = err instanceof Error ? err.message : "Network error";
+    console.error("Error syncing user to backend:", err);
     return { ok: false, error: message };
   }
 }
